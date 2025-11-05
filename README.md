@@ -11,6 +11,7 @@ team oop project
 - Поддержка монетизации (базовый и премиум-планы)
 
 Технологии
+
 **Backend:** Java 17, Spring Boot, JPA, PostgreSQL, iText, Apache POI  
 **Frontend:** React + TailwindCSS  
 **Auth:** JWT  
