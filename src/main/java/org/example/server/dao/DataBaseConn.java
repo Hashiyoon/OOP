@@ -20,7 +20,7 @@ public class DataBaseConn {
         }
     }
 
-    // Читаем параметры соединения из системных свойств(web.xml) или возвращает дефолты
+    // Читаем параметры соединения из системных свойств(лень добавлять) или возвращает дефолты
     public static Connection getConnection() throws SQLException {
         String url = System.getProperty("jdbc.url", "jdbc:postgresql://localhost:5432/user_db");
         String user = System.getProperty("jdbc.user", "postgres");
@@ -28,3 +28,4 @@ public class DataBaseConn {
         return DriverManager.getConnection(url, user, pass);
     }
 }
+
