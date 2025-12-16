@@ -116,4 +116,45 @@ public class ApiClient {
         HttpResponse<String> resp = postForm("/profile", req.toMap());
         return parseResponse(resp);
     }
+    
+    public ApiResponse<Map<String, String>> createOrder(String productName, int quantity, double price) throws Exception {
+        Map<String, String> form = new HashMap<>();
+        form.put("action", "create");
+        form.put("login", UserSession.get().getLogin());
+        form.put("product_name", productName);
+        form.put("quantity", String.valueOf(quantity));
+        form.put("price", String.valueOf(price));
+        
+        HttpResponse<String> resp = postForm("/orders", form);
+        return parseResponse(resp);
+    }
+
+    public ApiResponse<String> getUserOrders() throws Exception {
+        Map<String, String> form = new HashMap<>();
+        form.put("login", UserSession.get().getLogin());
+        
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url + "/orders?login=" + encode(UserSession.get().getLogin())))
+                .GET()
+                .build();
+        
+        HttpResponse<String> resp = client.send(request, HttpResponse.BodyHandlers.ofString());
+        
+        if (resp.statusCode() >= 200 && resp.statusCode() < 300) {
+            return ApiResponse.success(resp.statusCode(), resp.body());
+        } else {
+            return ApiResponse.error(resp.statusCode(), resp.body());
+        }
+    }
+
+    public ApiResponse<Map<String, String>> updateOrderStatus(String orderId, String status) throws Exception {
+        Map<String, String> form = new HashMap<>();
+        form.put("action", "update_status");
+        form.put("order_id", orderId);
+        form.put("status", status);
+        
+        HttpResponse<String> resp = postForm("/orders", form);
+        return parseResponse(resp);
+    }
 }
+
