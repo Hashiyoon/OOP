@@ -57,5 +57,52 @@ public class Main {
             cardLayout.show(container, REG);
         }
     }
+    
+    class MainFrame extends JFrame {
+        private final CardLayout cardLayout = new CardLayout();
+        private final JPanel container = new JPanel(cardLayout);
+        
+        private final RegistrationFrame registrationFrame;
+        private final ProfileFrame profileFrame;
+        private final OrdersFrame ordersFrame;
+        private final JTabbedPane tabbedPane;
+
+        public static final String REG = "registration";
+        public static final String MAIN = "main";
+
+        public MainFrame(ApiClient apiClient) {
+            super("Система управления заказами");
+            setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            setSize(900, 500);
+            setLocationRelativeTo(null);
+
+            registrationFrame = new RegistrationFrame(apiClient, this::onRegisterSuccess);
+            
+            // Создаем основную панель с вкладками
+            tabbedPane = new JTabbedPane();
+            profileFrame = new ProfileFrame(apiClient, this::onLogout);
+            ordersFrame = new OrdersFrame(apiClient);
+            
+            tabbedPane.addTab("Профиль", profileFrame);
+            tabbedPane.addTab("Мои заказы", ordersFrame);
+            
+            container.add(registrationFrame, REG);
+            container.add(tabbedPane, MAIN);
+            setContentPane(container);
+
+            cardLayout.show(container, REG);
+        }
+
+        private void onRegisterSuccess(Map<String, String> userData) {
+            profileFrame.getUserProfile();
+            cardLayout.show(container, MAIN);
+        }
+
+        private void onLogout() {
+            registrationFrame.clearForm();
+            cardLayout.show(container, REG);
+        }
+    }
 
 }
+
