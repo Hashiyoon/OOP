@@ -12,8 +12,8 @@ team oop project
 
 Технологии
 
-**Backend:** Java 17, Spring Boot, JPA, PostgreSQL, iText, Apache POI  
-**Frontend:** React + TailwindCSS  
+**Backend:** JDK 25, JPA, PostgreSQL, Apache POI,   
+**Frontend:** HTML, Swing  
 **Auth:** JWT  
 **Build:** Maven  
 **Docs:** Swagger / OpenAPI
